@@ -15,5 +15,7 @@
     "mariadb": "^3.4.0",
     "nodemon": "^3.1.9",
     "ws": "^8.18.0"
-  }
+  },
+  "repository": "https://github.com/mcruguda/M321_myChat.git",
+  "author": "Cyrill Augustiny <cyrill.augustiny@gmail.com>"
 }
