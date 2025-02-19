@@ -35,6 +35,12 @@ app.use(express.static("client"));
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/client/index.html");
 });
+app.get("/register", (req, res) => {
+  res.sendFile(__dirname + "/client/register.html");
+});
+app.get("/login", (req, res) => {
+  res.sendFile(__dirname + "/client/login.html");
+});
 // Initialize the websocket server
 initializeWebsocketServer(server);
 // Initialize the REST api
