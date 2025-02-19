@@ -39,9 +39,10 @@ socket.addEventListener("error", (event) => {
 
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("btnSendHello").addEventListener("click", () => {
+    const messageInput = document.getElementById("inptMessage").value;
     const message = {
       type: "message",
-      text: "Hello, server!",
+      text: messageInput,
     };
     socket.send(JSON.stringify(message));
   });

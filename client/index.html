@@ -12,11 +12,18 @@
   <body class="w-screen h-screen flex justify-center items-center">
     <div class="flex flex-col items-center gap-2">
       <h1 class="font-semibold">Hello 321</h1>
+      <div class="mb-6">
+        <input
+          type="text"
+          id="inptMessage"
+          class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
       <button
         id="btnSendHello"
         class="rounded bg-red-300 hover:bg-red-500 p-2 px-4"
       >
-        Send Hello To Server!
+        Send
       </button>
       <div id="messages" class="flex flex-col gap-2"></div>
     </div>
