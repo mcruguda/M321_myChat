@@ -12,6 +12,7 @@ const {
 
 // Create the express server
 const app = express();
+app.use(express.json());
 const server = http.createServer(app);
 
 // create a livereload server

@@ -57,8 +57,8 @@ const executeSQL = async (query, params) => {
 const initializeDBSchema = async () => {
   const userTableQuery = `CREATE TABLE IF NOT EXISTS user (
     userId INT NOT NULL AUTO_INCREMENT,
-    username VARCHAR(255) NOT NULL,
-    birthday date NOT NULL,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    birthday VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     PRIMARY KEY (userid)
   );`;

@@ -1,4 +1,5 @@
 const { executeSQL } = require("./database");
+import bcrypt from "bcrypt";
 
 /**
  * Initializes the API endpoints.
@@ -11,6 +12,7 @@ const initializeAPI = (app) => {
   // default REST api endpoint
   app.get("/api/hello", hello);
   app.get("/api/users", users);
+  app.post("/api/register", register);
 };
 
 /**
@@ -37,6 +39,14 @@ const users = async (req, res) => {
   await executeSQL("INSERT INTO users (name) VALUES ('John Doe');");
   const result = await executeSQL("SELECT * FROM users;");
   res.json(result);
+};
+
+const register = async (req, res) => {
+  const { username, password, birthday } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const query = `INSERT INTO user (username, birthday, password) VALUES ('${username}', '${birthday}', '${hashedPassword}');`;
+  await executeSQL(query);
+  res.sendStatus(200);
 };
 
 module.exports = { initializeAPI };
