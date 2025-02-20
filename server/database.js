@@ -55,20 +55,38 @@ const executeSQL = async (query, params) => {
  * Useful for the first time setup.
  */
 const initializeDBSchema = async () => {
-  const userTableQuery = `CREATE TABLE IF NOT EXISTS users (
-    id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
-    PRIMARY KEY (id)
+  const userTableQuery = `CREATE TABLE IF NOT EXISTS user (
+    userId INT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(255) NOT NULL,
+    birthday date NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    PRIMARY KEY (userid)
   );`;
   await executeSQL(userTableQuery);
+  const chatTableQuery = `CREATE TABLE IF NOT EXISTS chats (
+    chatId INT NOT NULL AUTO_INCREMENT,
+    chatName VARCHAR(255) NOT NULL,
+    PRIMARY KEY (chatId)
+  );`;
+  await executeSQL(chatTableQuery);
   const messageTableQuery = `CREATE TABLE IF NOT EXISTS messages (
-    id INT NOT NULL AUTO_INCREMENT,
+    messageId INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
-    message VARCHAR(255) NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    chat_id INT NOT NULL,
+    msgText VARCHAR(255) NOT NULL,
+    PRIMARY KEY (messageId),
+    FOREIGN KEY (user_id) REFERENCES user(userId),
+    FOREIGN KEY (chat_id) REFERENCES chats(chatId)
   );`;
   await executeSQL(messageTableQuery);
+  const userChatTableQuery = `CREATE TABLE IF NOT EXISTS user_chats (
+    chat_id INT NOT NULL,
+    user_id INT NOT NULL,
+    PRIMARY KEY (chat_id, user_id),
+    FOREIGN KEY (user_id) REFERENCES user(userId),
+    FOREIGN KEY (chat_id) REFERENCES chats(chatId)
+  );`;
+  await executeSQL(userChatTableQuery);
 };
 
 module.exports = { executeSQL, initializeMariaDB, initializeDBSchema };
