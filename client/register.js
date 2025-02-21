@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   document
     .getElementById("registerForm")
-    .addEventListener("submit", async () => {
+    .addEventListener("submit", async (event) => {
+      event.preventDefault();
       const username = document.getElementById("usernameInput").value;
       const birthday = document.getElementById("birthdayInput").value;
       const password = document.getElementById("passwordInput").value;
@@ -12,13 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         body: JSON.stringify({ username, birthday, password }),
       });
-      // const data = await response.json();
-      // if (data?.token) {
-      //   localStorage.setItem("user", JSON.stringify(data.user));
-      //   localStorage.setItem("token", data.token);
-      //   window.location.href = "/";
-      // } else {
-      //   errorText.innerText = data;
-      // }
+      if (response.status === 200) {
+        window.location.href = "/login";
+      }
     });
 });
