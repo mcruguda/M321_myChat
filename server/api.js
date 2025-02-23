@@ -21,6 +21,7 @@ const initializeAPI = (app) => {
   app.get("/api/userInfo", verifyToken, userInfo);
   app.post("/api/saveMessage", verifyToken, saveMessage);
   app.get("/api/getMessages", verifyToken, getMessages);
+  app.put("/api/updateUsername", verifyToken, changeUsername);
 };
 
 /**
@@ -104,6 +105,13 @@ const getMessages = async (req, res) => {
     `;
   const messages = await executeSQL(query);
   return res.status(200).send(messages);
+};
+
+const changeUsername = async (req, res) => {
+  const { newUsername, userId } = req.body;
+  const query = `UPDATE \`user\` SET \`username\`='${newUsername}' WHERE userId = ${userId}; `;
+  executeSQL(query);
+  return res.status(200).send("OK");
 };
 
 module.exports = { initializeAPI };

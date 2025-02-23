@@ -3,6 +3,7 @@
 // replace localhost with the server's IP address or domain name.
 const socket = new WebSocket("ws://localhost:3000");
 let username = "";
+let userId = "";
 
 // Listen for WebSocket open event
 socket.addEventListener("open", (event) => {
@@ -111,6 +112,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (data?.username) {
       loggedInUsername.innerHTML = data.username;
       username = data.username;
+      userId = data.userId;
 
       const messageResponse = await fetch("/api/getMessages", {
         method: "GET",
@@ -119,7 +121,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      if (response.status === 200) {
+      if (messageResponse.status === 200) {
         const messages = await messageResponse.json();
         messages.forEach((message) => {
           const messageToSend = {
@@ -138,6 +140,24 @@ document.addEventListener("DOMContentLoaded", async () => {
   } else {
     window.location.href = "/login";
   }
+
+  document
+    .getElementById("editUsername")
+    .addEventListener("click", async () => {
+      const newUsername = document.getElementById("changeUsername").value;
+      const response = await fetch("/api/updateUsername", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ newUsername }),
+      });
+      if (response.status === 200) {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+      }
+    });
 
   document
     .getElementById("btnSendHello")
