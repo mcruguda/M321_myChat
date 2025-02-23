@@ -34,7 +34,7 @@ const initializeMariaDB = () => {
  * @example
  * // Select statement without parameters.
  * executeSQL("SELECT * FROM users;");
- * @returns {Array} Returns the result of the query.
+ * @returns {Promise<Array>} Returns the result of the query.
  */
 const executeSQL = async (query, params) => {
   let conn;
@@ -73,7 +73,9 @@ const initializeDBSchema = async () => {
     messageId INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
     chat_id INT NOT NULL,
-    msgText VARCHAR(255) NOT NULL,
+    msgText text NOT NULL,
+    date VARCHAR(255) NOT NULL,
+    time VARCHAR(255) NOT NULL,
     PRIMARY KEY (messageId),
     FOREIGN KEY (user_id) REFERENCES user(userId),
     FOREIGN KEY (chat_id) REFERENCES chats(chatId)
@@ -87,6 +89,8 @@ const initializeDBSchema = async () => {
     FOREIGN KEY (chat_id) REFERENCES chats(chatId)
   );`;
   await executeSQL(userChatTableQuery);
+  const publicChat = `INSERT INTO chats (chatId, chatName) VALUES (1, "Public") ON DUPLICATE KEY UPDATE chatId = 1;`;
+  await executeSQL(publicChat);
 };
 
 module.exports = { executeSQL, initializeMariaDB, initializeDBSchema };

@@ -1,5 +1,6 @@
 const { executeSQL } = require("./database");
 const bcrypt = require("bcrypt");
+const { verifyToken } = require("./jwtMiddleware");
 const jwt = require("jsonwebtoken");
 
 const secretKey = process.env.SECRET_KEY || `SUPERSECRET_KEY`;
@@ -17,6 +18,9 @@ const initializeAPI = (app) => {
   app.get("/api/users", users);
   app.post("/api/register", register);
   app.post("/api/login", login);
+  app.get("/api/userInfo", verifyToken, userInfo);
+  app.post("/api/saveMessage", verifyToken, saveMessage);
+  app.get("/api/getMessages", verifyToken, getMessages);
 };
 
 /**
@@ -73,9 +77,7 @@ const login = async (req, res) => {
     const jwtToken = jwt.sign(
       {
         exp: Math.floor(Date.now() / 1000) + 60 * 60,
-        id: userId,
-        username: userName,
-        birthday: userBirth,
+        data: { userId, username, userBirth },
       },
       secretKey
     );
@@ -83,6 +85,25 @@ const login = async (req, res) => {
   }
 
   return res.status(401).send("Username or Password is incorrect!");
+};
+
+const userInfo = async (req, res) => {
+  const { userId, username } = req.body;
+  return res.status(200).send({ userId, username });
+};
+
+const saveMessage = async (req, res) => {
+  const { messageInput, userId, date, time } = req.body;
+  const query = `INSERT INTO messages (msgText, date, time, chat_id, user_id) VALUES ('${messageInput}', '${date}', '${time}', 1, ${userId});`;
+  executeSQL(query);
+  return res.status(200);
+};
+
+const getMessages = async (req, res) => {
+  const query = `SELECT username, msgText, date, time FROM \`messages\` JOIN user ON user_id = user.userId; 
+    `;
+  const messages = await executeSQL(query);
+  return res.status(200).send(messages);
 };
 
 module.exports = { initializeAPI };

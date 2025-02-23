@@ -16,11 +16,8 @@ function verifyToken(req, res, next) {
     const id = decoded.data.userId;
     const username = decoded.data.username;
     const birthday = decoded.data.userBirth;
-    req.body = {
-      id: id,
-      username: username,
-      birthday: birthday,
-    };
+    req.body.userId = id;
+    req.body.username = username;
     next();
   });
 }
