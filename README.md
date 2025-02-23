@@ -5,19 +5,8 @@
 - Node >= 18.x
 
 ## Get Started
-```bash
-yarn install
-docker compose up -d # For the mariaDB
-yarn dev # For development
-yarn prod # For Production or Docker Init Command
-```
+1. Download/Clone the Repository
+2. Open a terminal in the right location
+3. Make sure Docker is running
+4. Execute "docker compose up -d"
 Then acces the frontend at http://localhost:3000
-
-## Get Started MariaDB
-https://mariadb.com/kb/en/getting-started-with-the-nodejs-connector/
-```bash
-docker exec -it mariadb bash
-mysql -u root -p
-```
-OR
-- Go to http://localhost:8080
