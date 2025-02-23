@@ -25,5 +25,18 @@ services:
     ports:
       - 9200:80
 
+  app:
+    image: cyrillaugustiny/chatapp:1.0.1
+    depends_on:
+      - mariadb
+    environment:
+      - DB_HOST=mariadb
+      - SECRET_KEY=SUPERSECRET_KEY
+      - DB_NAME=mychat
+      - DB_USER=mychat
+      - DB_PASSWORD=mychatpassword
+    ports:
+      - 3000:3000
+
 volumes:
   m321_project_mariadb:

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon --ext js,css,html",
-    "prod": "SET NODE_ENV=production && node app.js"
+    "prod": "NODE_ENV=production node app.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

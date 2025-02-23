@@ -19,7 +19,6 @@ const initializeMariaDB = () => {
   pool = mariadb.createPool({
     database: process.env.DB_NAME || "mychat",
     host: process.env.DB_HOST || "localhost",
-    port: parseInt(process.env.DB_PORT || "3307"),
     user: process.env.DB_USER || "mychat",
     password: process.env.DB_PASSWORD || "mychatpassword",
     connectionLimit: 5,
